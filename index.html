@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Análisis de Crecimiento de Usuarios — Ingeniería de Sistemas</title>
+  <!-- Chart.js desde CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <!-- Estilos propios -->
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+<h1>Análisis de crecimiento de usuarios</h1>
+<p class="subtitle">Ingeniería de Sistemas — f(t) = 50 + 10t &nbsp;·&nbsp; Todos los gráficos</p>
+
+<!-- ══════════════════════════════════════════════════════
+     SECCIÓN A — GRÁFICOS INTERACTIVOS
+══════════════════════════════════════════════════════ -->
+<p class="section-title">Gráficos interactivos</p>
+
+<div class="tabs" id="tabBar">
+  <button class="tab active" data-panel="p1">1 · Función f(t)</button>
+  <button class="tab" data-panel="p2">2 · Integral</button>
+  <button class="tab" data-panel="p3">3 · Acumulado</button>
+  <button class="tab" data-panel="p4">4 · Comparar modelos</button>
+</div>
+
+<!-- Panel 1 — Función f(t) -->
+<div class="panel active" id="p1">
+  <span class="chip chip-blue">Tasa de llegada</span>
+  <p class="desc"><strong>f(t) = base + pendiente × t</strong> modela cuántos usuarios llegan al sistema por unidad de tiempo. Ajusta los parámetros con los sliders.</p>
+  <div class="slider-row">
+    <label>Carga base</label>
+    <input type="range" id="base" min="0" max="200" step="1" value="50">
+    <span class="val" id="baseVal">50</span>
+  </div>
+  <div class="slider-row">
+    <label>Pendiente</label>
+    <input type="range" id="pend" min="0" max="30" step="1" value="10">
+    <span class="val" id="pendVal">10</span>
+  </div>
+  <div class="formula" id="formula1">f(t) = 50 + 10t</div>
+  <div class="metric-row">
+    <div class="metric"><div class="label">f(0) — inicio</div><div class="value" id="f0">50</div></div>
+    <div class="metric"><div class="label">f(5) — mitad</div><div class="value" id="f5">100</div></div>
+    <div class="metric"><div class="label">f(10) — final</div><div class="value" id="f10">150</div></div>
+  </div>
+  <div class="chart-wrap">
+    <canvas id="chart1" role="img" aria-label="Función lineal de crecimiento de usuarios f(t)">f(t) lineal</canvas>
+  </div>
+  <div class="info-box">La <strong>carga base</strong> representa los usuarios mínimos antes de cualquier campaña. La <strong>pendiente</strong> indica cuántos usuarios extra se suman por cada día transcurrido.</div>
+</div>
+
+<!-- Panel 2 — Integral -->
+<div class="panel" id="p2">
+  <span class="chip chip-teal">Integral definida</span>
+  <p class="desc">El <strong>área bajo la curva</strong> representa la cantidad total de usuarios acumulados en el intervalo [a, b]. Mueve los límites para ver cómo cambia el total.</p>
+  <div class="slider-row">
+    <label>Límite inferior a</label>
+    <input type="range" id="limA" min="0" max="9" step="1" value="0">
+    <span class="val" id="limAVal">0</span>
+  </div>
+  <div class="slider-row">
+    <label>Límite superior b</label>
+    <input type="range" id="limB" min="1" max="10" step="1" value="10">
+    <span class="val" id="limBVal">10</span>
+  </div>
+  <div class="formula" id="formula2">∫₀¹⁰ (50 + 10t) dt = [50t + 5t²]₀¹⁰ = 1000</div>
+  <div class="metric-row">
+    <div class="metric"><div class="label">F(a)</div><div class="value" id="Fa">0</div></div>
+    <div class="metric"><div class="label">F(b)</div><div class="value" id="Fb">1000</div></div>
+    <div class="metric"><div class="label" style="color:#065f46;">Total usuarios</div><div class="value" id="intResult" style="color:#065f46;">1000</div></div>
+  </div>
+  <div class="chart-wrap">
+    <canvas id="chart2" role="img" aria-label="Integral definida con área sombreada">Integral definida</canvas>
+  </div>
+  <div class="info-box">La primitiva es <strong>F(t) = 50t + 5t²</strong>. El resultado F(b) − F(a) da el total de usuarios en ese rango de tiempo.</div>
+</div>
+
+<!-- Panel 3 — Acumulado -->
+<div class="panel" id="p3">
+  <span class="chip chip-amber">Usuarios acumulados</span>
+  <p class="desc">La primitiva <strong>F(t) = 50t + 5t²</strong> muestra el total de usuarios desde el inicio hasta t. Desliza el cursor para ver el valor exacto en cada instante.</p>
+  <div class="slider-row">
+    <label>Ver en t =</label>
+    <input type="range" id="tCursor" min="0" max="10" step="1" value="5">
+    <span class="val" id="tCursorVal">5</span>
+  </div>
+  <div class="metric-row">
+    <div class="metric"><div class="label">Tiempo t</div><div class="value" id="curT">5</div></div>
+    <div class="metric"><div class="label">f(t) usuarios/día</div><div class="value" id="curF">100</div></div>
+    <div class="metric"><div class="label" style="color:#92400e;">F(t) acumulados</div><div class="value" id="curFt" style="color:#92400e;">500</div></div>
+  </div>
+  <div class="chart-wrap" style="height:280px;">
+    <canvas id="chart3" role="img" aria-label="Curva acumulada parabólica F(t) de usuarios">Usuarios acumulados</canvas>
+  </div>
+  <div class="info-box">La curva es <strong>parabólica</strong> (término t²). El sistema necesita escalar infraestructura con esta aceleración creciente, no de forma lineal.</div>
+</div>
+
+<!-- Panel 4 — Comparar modelos -->
+<div class="panel" id="p4">
+  <span class="chip chip-red">Limitaciones del modelo</span>
+  <p class="desc">El modelo lineal es una primera aproximación. Activa o desactiva cada curva para comparar su comportamiento real frente a modelos más avanzados.</p>
+  <div class="check-row">
+    <label>
+      <input type="checkbox" id="showLineal" checked>
+      <span style="width:14px;height:3px;background:#3b82f6;display:inline-block;border-radius:2px;"></span>
+      Lineal (modelo actual)
+    </label>
+    <label>
+      <input type="checkbox" id="showExpo" checked>
+      <span style="width:14px;height:0;border-top:2px dashed #ec4899;display:inline-block;"></span>
+      Exponencial
+    </label>
+    <label>
+      <input type="checkbox" id="showLogis" checked>
+      <span style="width:14px;height:0;border-top:2px dotted #10b981;display:inline-block;"></span>
+      Logístico (saturación)
+    </label>
+  </div>
+  <div class="chart-wrap" style="height:280px;">
+    <canvas id="chart4" role="img" aria-label="Comparación de tres modelos de crecimiento">Comparación de modelos</canvas>
+  </div>
+  <div class="model-cards">
+    <div class="model-card" style="border-left:3px solid #3b82f6;">
+      <div class="name" style="color:#1e40af;">Lineal</div>
+      <div class="desc-card">Simple y fácil de calcular. No considera saturación ni límites del sistema.</div>
+    </div>
+    <div class="model-card" style="border-left:3px solid #ec4899;">
+      <div class="name" style="color:#9d174d;">Exponencial</div>
+      <div class="desc-card">Más realista al inicio (crecimiento viral). Crece sin límite, sobreestima a largo plazo.</div>
+    </div>
+    <div class="model-card" style="border-left:3px solid #10b981;">
+      <div class="name" style="color:#065f46;">Logístico</div>
+      <div class="desc-card">El más realista. Incluye capacidad máxima del sistema y modela la saturación natural.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SECCIÓN B — IMPACTO EN SERVIDORES
+══════════════════════════════════════════════════════ -->
+<p class="section-title">Impacto en servidores</p>
+<div class="card">
+  <div class="card-title">Consumo estimado de recursos vs usuarios acumulados</div>
+  <div class="card-desc">Muestra cómo CPU, Memoria y Ancho de banda escalan con el crecimiento de usuarios. Ajusta el factor de escala de cada recurso.</div>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:14px;">
+    <div class="slider-row" style="flex-direction:column; align-items:flex-start; gap:4px;">
+      <label style="min-width:unset; font-size:12px; color:#1e40af;">CPU (factor)</label>
+      <div style="display:flex; gap:8px; align-items:center; width:100%;">
+        <input type="range" id="cpuF" min="1" max="10" step="1" value="4" style="flex:1; accent-color:#3b82f6;">
+        <span class="val" id="cpuFVal" style="font-size:13px;">4</span>
+      </div>
+    </div>
+    <div class="slider-row" style="flex-direction:column; align-items:flex-start; gap:4px;">
+      <label style="min-width:unset; font-size:12px; color:#d97706;">Memoria (factor)</label>
+      <div style="display:flex; gap:8px; align-items:center; width:100%;">
+        <input type="range" id="memF" min="1" max="10" step="1" value="6" style="flex:1; accent-color:#d97706;">
+        <span class="val" id="memFVal" style="font-size:13px;">6</span>
+      </div>
+    </div>
+    <div class="slider-row" style="flex-direction:column; align-items:flex-start; gap:4px;">
+      <label style="min-width:unset; font-size:12px; color:#10b981;">Ancho de banda (factor)</label>
+      <div style="display:flex; gap:8px; align-items:center; width:100%;">
+        <input type="range" id="bwF" min="1" max="10" step="1" value="8" style="flex:1; accent-color:#10b981;">
+        <span class="val" id="bwFVal" style="font-size:13px;">8</span>
+      </div>
+    </div>
+  </div>
+  <div class="chart-wrap-lg">
+    <canvas id="chart5" role="img" aria-label="Consumo de recursos CPU memoria y ancho de banda">Recursos del servidor</canvas>
+  </div>
+  <div class="info-box">El crecimiento acumulado impulsa directamente el consumo de recursos. Cuando los usuarios superan la capacidad actual, el sistema necesita <strong>escalabilidad horizontal</strong> (más servidores) o <strong>vertical</strong> (mejor hardware).</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SECCIÓN C — ESCALAMIENTO
+══════════════════════════════════════════════════════ -->
+<p class="section-title">Necesidad de escalamiento</p>
+<div class="card">
+  <div class="card-title">Usuarios acumulados vs capacidad del sistema</div>
+  <div class="card-desc">Visualiza en qué punto la demanda supera la capacidad instalada y cuándo se necesita escalar.</div>
+  <div class="slider-row">
+    <label>Capacidad inicial</label>
+    <input type="range" id="capIni" min="100" max="800" step="50" value="300">
+    <span class="val" id="capIniVal">300</span>
+  </div>
+  <div class="slider-row">
+    <label>Crecimiento capacidad</label>
+    <input type="range" id="capGrow" min="0" max="80" step="5" value="20">
+    <span class="val" id="capGrowVal">20</span>
+  </div>
+  <div class="metric-row">
+    <div class="metric"><div class="label">Punto de cruce (día)</div><div class="value" id="crossDay" style="color:#ef4444;">—</div></div>
+    <div class="metric"><div class="label">Demanda en t=10</div><div class="value" id="demandAt10">1000</div></div>
+    <div class="metric"><div class="label">Capacidad en t=10</div><div class="value" id="capAt10">500</div></div>
+  </div>
+  <div class="chart-wrap-lg">
+    <canvas id="chart6" role="img" aria-label="Comparación de demanda acumulada versus capacidad del sistema">Escalamiento del sistema</canvas>
+  </div>
+  <div class="info-box">La zona <strong style="color:#fca5a5;">roja sombreada</strong> indica el déficit de capacidad. La zona <strong style="color:#86efac;">verde</strong> es donde el sistema opera con holgura.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SECCIÓN D — BARRAS DIARIAS
+══════════════════════════════════════════════════════ -->
+<p class="section-title">Usuarios por día</p>
+<div class="card">
+  <div class="card-title">Llegada diaria de usuarios — f(t) = 50 + 10t</div>
+  <div class="card-desc">Cada barra representa los usuarios que llegan en ese día específico. El color más oscuro indica mayor carga sobre el sistema.</div>
+  <div class="chart-wrap-lg">
+    <canvas id="chart7" role="img" aria-label="Barras de usuarios por día del 1 al 10">Usuarios por día</canvas>
+  </div>
+  <div class="info-box">Con 10 días de operación, el sistema pasa de atender <strong>60 usuarios/día</strong> el primer día a <strong>150 usuarios/día</strong> el último. Esta diferencia del 150% exige planificación de capacidad desde el inicio.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SECCIÓN E — PANEL RESUMEN 2×2
+══════════════════════════════════════════════════════ -->
+<p class="section-title">Panel resumen</p>
+<div class="grid2">
+  <div class="card">
+    <div class="card-title">A · Función f(t)</div>
+    <div class="chart-wrap" style="height:200px;">
+      <canvas id="chartS1" role="img" aria-label="Resumen función f(t)">f(t)</canvas>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">B · Integral [0,10]</div>
+    <div class="chart-wrap" style="height:200px;">
+      <canvas id="chartS2" role="img" aria-label="Resumen integral">Integral</canvas>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">C · Acumulado F(t)</div>
+    <div class="chart-wrap" style="height:200px;">
+      <canvas id="chartS3" role="img" aria-label="Resumen acumulado">F(t)</canvas>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">D · Comparación modelos</div>
+    <div class="chart-wrap" style="height:200px;">
+      <canvas id="chartS4" role="img" aria-label="Resumen comparación">Modelos</canvas>
+    </div>
+  </div>
+</div>
+
+<p class="footer">Ingeniería de Sistemas · f(t) = 50 + 10t</p>
+
+<!-- Script propio (al final del body) -->
+<script src="js/graficos.js"></script>
+
+</body>
+</html>
