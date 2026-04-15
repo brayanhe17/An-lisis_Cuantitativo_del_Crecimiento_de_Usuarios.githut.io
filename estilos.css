@@ -1,0 +1,190 @@
+/* ══════════════════════════════════════════════
+   estilos.css
+   Análisis de Crecimiento de Usuarios
+   Ingeniería de Sistemas
+══════════════════════════════════════════════ */
+
+/* ── reset y base ── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, sans-serif;
+  background: #f4f6f8;
+  color: #1a1a1a;
+  padding: 28px 18px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.subtitle { font-size: 13px; color: #666; margin-bottom: 28px; }
+
+/* ── sección ── */
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: #888;
+  margin: 32px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* ── tabs ── */
+.tabs { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
+.tab {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  color: #555;
+  transition: all .18s;
+}
+.tab.active {
+  background: #fff;
+  color: #111;
+  border-color: #aaa;
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+.tab:hover:not(.active) { background: #efefef; }
+
+/* ── paneles ── */
+.panel {
+  display: none;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e5e5e5;
+  padding: 20px;
+}
+.panel.active { display: block; }
+
+/* ── cards ── */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e5e5e5;
+  padding: 20px;
+  margin-bottom: 18px;
+}
+.card-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.card-desc  { font-size: 12px; color: #777; margin-bottom: 14px; line-height: 1.5; }
+
+/* ── chips ── */
+.chip {
+  display: inline-block;
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.chip-blue   { background: #dbeafe; color: #1e40af; }
+.chip-teal   { background: #d1fae5; color: #065f46; }
+.chip-amber  { background: #fef3c7; color: #92400e; }
+.chip-red    { background: #fee2e2; color: #991b1b; }
+.chip-purple { background: #ede9fe; color: #5b21b6; }
+.chip-gray   { background: #f3f4f6; color: #374151; }
+
+/* ── descripción ── */
+.desc { font-size: 13px; color: #555; margin-bottom: 16px; line-height: 1.6; }
+
+/* ── sliders ── */
+.slider-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; }
+.slider-row label { font-size: 13px; color: #666; min-width: 130px; }
+.slider-row input[type=range] { flex: 1; accent-color: #3b82f6; cursor: pointer; }
+.slider-row .val { font-size: 14px; font-weight: 600; min-width: 40px; text-align: right; color: #111; }
+
+/* ── métricas ── */
+.metric-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 14px 0;
+}
+.metric { background: #f4f4f5; border-radius: 8px; padding: 11px 13px; }
+.metric .label {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+.metric .value { font-size: 21px; font-weight: 700; color: #111; }
+
+/* ── fórmula ── */
+.formula {
+  font-size: 14px;
+  font-weight: 600;
+  background: #f0f7ff;
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin: 12px 0;
+  color: #1e40af;
+  text-align: center;
+  border: 1px solid #bfdbfe;
+}
+
+/* ── contenedores de gráficos ── */
+.chart-wrap    { position: relative; width: 100%; height: 260px; margin: 14px 0; }
+.chart-wrap-lg { position: relative; width: 100%; height: 300px; margin: 14px 0; }
+
+/* ── caja de información ── */
+.info-box {
+  font-size: 13px;
+  color: #555;
+  border-left: 3px solid #d1d5db;
+  padding-left: 12px;
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+/* ── panel comparación de modelos ── */
+.check-row { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 14px; }
+.check-row label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #444;
+}
+.model-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+.model-card { background: #f9f9f9; border-radius: 8px; padding: 10px 12px; }
+.model-card .name      { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+.model-card .desc-card { font-size: 11px; color: #666; line-height: 1.5; }
+
+/* ── panel resumen 2x2 ── */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid2 .card { margin-bottom: 0; }
+
+/* ── anotaciones flotantes ── */
+.annotation {
+  position: absolute;
+  font-size: 11px;
+  font-weight: 600;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 3px 8px;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(0,0,0,.07);
+}
+
+/* ── pie ── */
+.footer {
+  font-size: 12px;
+  color: #aaa;
+  text-align: center;
+  margin-top: 28px;
+}
+
+/* ── responsive ── */
+@media (max-width: 600px) {
+  .metric-row  { grid-template-columns: 1fr 1fr; }
+  .model-cards { grid-template-columns: 1fr; }
+  .grid2       { grid-template-columns: 1fr; }
+}
