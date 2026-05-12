@@ -3,253 +3,507 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Análisis de Crecimiento de Usuarios — Ingeniería de Sistemas</title>
-  <!-- Chart.js desde CDN -->
+  <title>Instagram Growth Analytics — Ingeniería de Sistemas</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-  <!-- Estilos propios -->
-  <link rel="stylesheet" href="estilos.css">
+  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="stylesheet" href="css/astronauta.css">
+  <link rel="stylesheet" href="css/cursor.css">
 </head>
 <body>
-
-<h1>Análisis de crecimiento de usuarios</h1>
-<p class="subtitle">Ingeniería de Sistemas — f(t) = 50 + 10t &nbsp;·&nbsp; Todos los gráficos</p>
-
-<!-- ══════════════════════════════════════════════════════
-     SECCIÓN A — GRÁFICOS INTERACTIVOS
-══════════════════════════════════════════════════════ -->
-<p class="section-title">Gráficos interactivos</p>
-
-<div class="tabs" id="tabBar">
-  <button class="tab active" data-panel="p1">1 · Función f(t)</button>
-  <button class="tab" data-panel="p2">2 · Integral</button>
-  <button class="tab" data-panel="p3">3 · Acumulado</button>
-  <button class="tab" data-panel="p4">4 · Comparar modelos</button>
+  
+   <div class="astro-pixel-wrapper">
+    <div class="mensaje-hola">¡Hola!</div>
+    <div class="astronauta-pixel"></div>
 </div>
 
-<!-- Panel 1 — Función f(t) -->
-<div class="panel active" id="p1">
-  <span class="chip chip-blue">Tasa de llegada</span>
-  <p class="desc"><strong>f(t) = base + pendiente × t</strong> modela cuántos usuarios llegan al sistema por unidad de tiempo. Ajusta los parámetros con los sliders.</p>
-  <div class="slider-row">
-    <label>Carga base</label>
-    <input type="range" id="base" min="0" max="200" step="1" value="50">
-    <span class="val" id="baseVal">50</span>
-  </div>
-  <div class="slider-row">
-    <label>Pendiente</label>
-    <input type="range" id="pend" min="0" max="30" step="1" value="10">
-    <span class="val" id="pendVal">10</span>
-  </div>
-  <div class="formula" id="formula1">f(t) = 50 + 10t</div>
-  <div class="metric-row">
-    <div class="metric"><div class="label">f(0) — inicio</div><div class="value" id="f0">50</div></div>
-    <div class="metric"><div class="label">f(5) — mitad</div><div class="value" id="f5">100</div></div>
-    <div class="metric"><div class="label">f(10) — final</div><div class="value" id="f10">150</div></div>
-  </div>
-  <div class="chart-wrap">
-    <canvas id="chart1" role="img" aria-label="Función lineal de crecimiento de usuarios f(t)">f(t) lineal</canvas>
-  </div>
-  <div class="info-box">La <strong>carga base</strong> representa los usuarios mínimos antes de cualquier campaña. La <strong>pendiente</strong> indica cuántos usuarios extra se suman por cada día transcurrido.</div>
-</div>
+  <div id="globe-container" style="position:fixed; top:0; left:0; z-index:0; pointer-events:none;"></div>
 
-<!-- Panel 2 — Integral -->
-<div class="panel" id="p2">
-  <span class="chip chip-teal">Integral definida</span>
-  <p class="desc">El <strong>área bajo la curva</strong> representa la cantidad total de usuarios acumulados en el intervalo [a, b]. Mueve los límites para ver cómo cambia el total.</p>
-  <div class="slider-row">
-    <label>Límite inferior a</label>
-    <input type="range" id="limA" min="0" max="9" step="1" value="0">
-    <span class="val" id="limAVal">0</span>
-  </div>
-  <div class="slider-row">
-    <label>Límite superior b</label>
-    <input type="range" id="limB" min="1" max="10" step="1" value="10">
-    <span class="val" id="limBVal">10</span>
-  </div>
-  <div class="formula" id="formula2">∫₀¹⁰ (50 + 10t) dt = [50t + 5t²]₀¹⁰ = 1000</div>
-  <div class="metric-row">
-    <div class="metric"><div class="label">F(a)</div><div class="value" id="Fa">0</div></div>
-    <div class="metric"><div class="label">F(b)</div><div class="value" id="Fb">1000</div></div>
-    <div class="metric"><div class="label" style="color:#065f46;">Total usuarios</div><div class="value" id="intResult" style="color:#065f46;">1000</div></div>
-  </div>
-  <div class="chart-wrap">
-    <canvas id="chart2" role="img" aria-label="Integral definida con área sombreada">Integral definida</canvas>
-  </div>
-  <div class="info-box">La primitiva es <strong>F(t) = 50t + 5t²</strong>. El resultado F(b) − F(a) da el total de usuarios en ese rango de tiempo.</div>
-</div>
-
-<!-- Panel 3 — Acumulado -->
-<div class="panel" id="p3">
-  <span class="chip chip-amber">Usuarios acumulados</span>
-  <p class="desc">La primitiva <strong>F(t) = 50t + 5t²</strong> muestra el total de usuarios desde el inicio hasta t. Desliza el cursor para ver el valor exacto en cada instante.</p>
-  <div class="slider-row">
-    <label>Ver en t =</label>
-    <input type="range" id="tCursor" min="0" max="10" step="1" value="5">
-    <span class="val" id="tCursorVal">5</span>
-  </div>
-  <div class="metric-row">
-    <div class="metric"><div class="label">Tiempo t</div><div class="value" id="curT">5</div></div>
-    <div class="metric"><div class="label">f(t) usuarios/día</div><div class="value" id="curF">100</div></div>
-    <div class="metric"><div class="label" style="color:#92400e;">F(t) acumulados</div><div class="value" id="curFt" style="color:#92400e;">500</div></div>
-  </div>
-  <div class="chart-wrap" style="height:280px;">
-    <canvas id="chart3" role="img" aria-label="Curva acumulada parabólica F(t) de usuarios">Usuarios acumulados</canvas>
-  </div>
-  <div class="info-box">La curva es <strong>parabólica</strong> (término t²). El sistema necesita escalar infraestructura con esta aceleración creciente, no de forma lineal.</div>
-</div>
-
-<!-- Panel 4 — Comparar modelos -->
-<div class="panel" id="p4">
-  <span class="chip chip-red">Limitaciones del modelo</span>
-  <p class="desc">El modelo lineal es una primera aproximación. Activa o desactiva cada curva para comparar su comportamiento real frente a modelos más avanzados.</p>
-  <div class="check-row">
-    <label>
-      <input type="checkbox" id="showLineal" checked>
-      <span style="width:14px;height:3px;background:#3b82f6;display:inline-block;border-radius:2px;"></span>
-      Lineal (modelo actual)
-    </label>
-    <label>
-      <input type="checkbox" id="showExpo" checked>
-      <span style="width:14px;height:0;border-top:2px dashed #ec4899;display:inline-block;"></span>
-      Exponencial
-    </label>
-    <label>
-      <input type="checkbox" id="showLogis" checked>
-      <span style="width:14px;height:0;border-top:2px dotted #10b981;display:inline-block;"></span>
-      Logístico (saturación)
-    </label>
-  </div>
-  <div class="chart-wrap" style="height:280px;">
-    <canvas id="chart4" role="img" aria-label="Comparación de tres modelos de crecimiento">Comparación de modelos</canvas>
-  </div>
-  <div class="model-cards">
-    <div class="model-card" style="border-left:3px solid #3b82f6;">
-      <div class="name" style="color:#1e40af;">Lineal</div>
-      <div class="desc-card">Simple y fácil de calcular. No considera saturación ni límites del sistema.</div>
+  <div class="wrapper">
     </div>
-    <div class="model-card" style="border-left:3px solid #ec4899;">
-      <div class="name" style="color:#9d174d;">Exponencial</div>
-      <div class="desc-card">Más realista al inicio (crecimiento viral). Crece sin límite, sobreestima a largo plazo.</div>
-    </div>
-    <div class="model-card" style="border-left:3px solid #10b981;">
-      <div class="name" style="color:#065f46;">Logístico</div>
-      <div class="desc-card">El más realista. Incluye capacidad máxima del sistema y modela la saturación natural.</div>
-    </div>
-  </div>
-</div>
+<div class="wrapper">
 
-<!-- ══════════════════════════════════════════════════════
-     SECCIÓN B — IMPACTO EN SERVIDORES
-══════════════════════════════════════════════════════ -->
-<p class="section-title">Impacto en servidores</p>
-<div class="card">
-  <div class="card-title">Consumo estimado de recursos vs usuarios acumulados</div>
-  <div class="card-desc">Muestra cómo CPU, Memoria y Ancho de banda escalan con el crecimiento de usuarios. Ajusta el factor de escala de cada recurso.</div>
-  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:14px;">
-    <div class="slider-row" style="flex-direction:column; align-items:flex-start; gap:4px;">
-      <label style="min-width:unset; font-size:12px; color:#1e40af;">CPU (factor)</label>
-      <div style="display:flex; gap:8px; align-items:center; width:100%;">
-        <input type="range" id="cpuF" min="1" max="10" step="1" value="4" style="flex:1; accent-color:#3b82f6;">
-        <span class="val" id="cpuFVal" style="font-size:13px;">4</span>
+  <!-- ════════════════════════ HEADER ════════════════════════ -->
+  <header class="header">
+    <div class="header-left">
+      <div class="badge-ig">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="2" width="20" height="20" rx="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+        Instagram · Caso de Estudio Real
       </div>
+      <h1>Crecimiento de <em>usuarios</em><br>en <strong>Instagram</strong></h1>
+      <p class="header-sub">
+        Modelo matemático aplicado a la tasa de llegada de usuarios, respaldado por datos reales verificados de Meta, Statista y We Are Social 2024. El modelo f(t) representa un escenario académico de escala reducida basado en el comportamiento real de la plataforma.
+      </p>
+      <div class="verified-badge">✓ Contexto verificado · Statista · Meta · We Are Social 2024</div>
     </div>
-    <div class="slider-row" style="flex-direction:column; align-items:flex-start; gap:4px;">
-      <label style="min-width:unset; font-size:12px; color:#d97706;">Memoria (factor)</label>
-      <div style="display:flex; gap:8px; align-items:center; width:100%;">
-        <input type="range" id="memF" min="1" max="10" step="1" value="6" style="flex:1; accent-color:#d97706;">
-        <span class="val" id="memFVal" style="font-size:13px;">6</span>
-      </div>
+    <div class="header-formula">
+      <span class="eq">f(t) = 50 + 10t</span>
+      <span class="eq-label">Tasa de llegada (usuarios/día)</span>
+      <br>
+      <span class="eq" style="font-size:16px; margin-top:4px;">F(t) = 50t + 5t²</span>
+      <span class="eq-label">Usuarios acumulados · primitiva</span>
+      <br>
+      <span class="eq" style="font-size:16px; margin-top:4px;">∫₀¹⁰ f(t) dt = 1 000</span>
+      <span class="eq-label">Total usuarios · intervalo [0,10] días</span>
     </div>
-    <div class="slider-row" style="flex-direction:column; align-items:flex-start; gap:4px;">
-      <label style="min-width:unset; font-size:12px; color:#10b981;">Ancho de banda (factor)</label>
-      <div style="display:flex; gap:8px; align-items:center; width:100%;">
-        <input type="range" id="bwF" min="1" max="10" step="1" value="8" style="flex:1; accent-color:#10b981;">
-        <span class="val" id="bwFVal" style="font-size:13px;">8</span>
+
+    
+    
+  </header>
+
+  <!-- ════════════════════════ AVISO DATOS REALES ════════════════════════ -->
+  <div class="real-data-banner">
+    <div class="rdb-icon">📌</div>
+    <div>
+      <div class="rdb-title">Sobre los datos de este dashboard</div>
+      <div class="rdb-body">
+        El modelo matemático <strong>f(t) = 50 + 10t</strong> es un ejercicio académico con valores simplificados. Sin embargo, todo el contexto —infraestructura, tasas de crecimiento, comportamiento de usuarios— está basado en datos reales verificados.
+        Instagram alcanzó <strong>2 000 millones de usuarios activos mensuales en 2024</strong> y suma más de <strong>70 millones de nuevos usuarios cada año desde 2020</strong>.
+        <div class="rdb-sources">
+          <span class="rdb-src"><a href="https://www.statista.com/topics/1882/instagram/#editorsPicks" style="text-decoration: none; color: rgb(250, 249, 249);">Statista 2024</a></span>
+          <span class="rdb-src"><a href="https://wearesocial.com/es/blog/2024/01/digital-2024-5-billiones-de-usuarios-en-social-media/" style="text-decoration: none; color: rgb(255, 254, 254);">We Are Social 2024</a></span>
+          <span class="rdb-src"><a href="https://investor.atmeta.com/investor-news/press-release-details/2025/Meta-Reports-Fourth-Quarter-and-Full-Year-2024-Results/" style="text-decoration: none; color: rgb(248, 247, 247);">Meta Investor Report</a></span>
+          <span class="rdb-src"><a href="https://latcom.com/latcom/?company=Latcom&gad_campaignid=23755581820" style="text-decoration: none; color: rgb(253, 253, 253);">Hootsuite Digital 2024</a></span>
+          <span class="rdb-src"><a href="https://www.pewresearch.org/" style="text-decoration: none; color: rgb(255, 254, 254);">Pew Research Center</a></span>
+        </div>
       </div>
     </div>
   </div>
-  <div class="chart-wrap-lg">
-    <canvas id="chart5" role="img" aria-label="Consumo de recursos CPU memoria y ancho de banda">Recursos del servidor</canvas>
-  </div>
-  <div class="info-box">El crecimiento acumulado impulsa directamente el consumo de recursos. Cuando los usuarios superan la capacidad actual, el sistema necesita <strong>escalabilidad horizontal</strong> (más servidores) o <strong>vertical</strong> (mejor hardware).</div>
-</div>
 
-<!-- ══════════════════════════════════════════════════════
-     SECCIÓN C — ESCALAMIENTO
-══════════════════════════════════════════════════════ -->
-<p class="section-title">Necesidad de escalamiento</p>
-<div class="card">
-  <div class="card-title">Usuarios acumulados vs capacidad del sistema</div>
-  <div class="card-desc">Visualiza en qué punto la demanda supera la capacidad instalada y cuándo se necesita escalar.</div>
-  <div class="slider-row">
-    <label>Capacidad inicial</label>
-    <input type="range" id="capIni" min="100" max="800" step="50" value="300">
-    <span class="val" id="capIniVal">300</span>
+  <!-- ════════════════════════ HECHOS REALES ════════════════════════ -->
+  <div class="section-header">
+    <div class="section-dot"></div>
+    <span class="section-title">Datos reales verificados de Instagram 2024</span>
   </div>
-  <div class="slider-row">
-    <label>Crecimiento capacidad</label>
-    <input type="range" id="capGrow" min="0" max="80" step="5" value="20">
-    <span class="val" id="capGrowVal">20</span>
-  </div>
-  <div class="metric-row">
-    <div class="metric"><div class="label">Punto de cruce (día)</div><div class="value" id="crossDay" style="color:#ef4444;">—</div></div>
-    <div class="metric"><div class="label">Demanda en t=10</div><div class="value" id="demandAt10">1000</div></div>
-    <div class="metric"><div class="label">Capacidad en t=10</div><div class="value" id="capAt10">500</div></div>
-  </div>
-  <div class="chart-wrap-lg">
-    <canvas id="chart6" role="img" aria-label="Comparación de demanda acumulada versus capacidad del sistema">Escalamiento del sistema</canvas>
-  </div>
-  <div class="info-box">La zona <strong style="color:#fca5a5;">roja sombreada</strong> indica el déficit de capacidad. La zona <strong style="color:#86efac;">verde</strong> es donde el sistema opera con holgura.</div>
-</div>
 
-<!-- ══════════════════════════════════════════════════════
-     SECCIÓN D — BARRAS DIARIAS
-══════════════════════════════════════════════════════ -->
-<p class="section-title">Usuarios por día</p>
-<div class="card">
-  <div class="card-title">Llegada diaria de usuarios — f(t) = 50 + 10t</div>
-  <div class="card-desc">Cada barra representa los usuarios que llegan en ese día específico. El color más oscuro indica mayor carga sobre el sistema.</div>
-  <div class="chart-wrap-lg">
-    <canvas id="chart7" role="img" aria-label="Barras de usuarios por día del 1 al 10">Usuarios por día</canvas>
-  </div>
-  <div class="info-box">Con 10 días de operación, el sistema pasa de atender <strong>60 usuarios/día</strong> el primer día a <strong>150 usuarios/día</strong> el último. Esta diferencia del 150% exige planificación de capacidad desde el inicio.</div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════
-     SECCIÓN E — PANEL RESUMEN 2×2
-══════════════════════════════════════════════════════ -->
-<p class="section-title">Panel resumen</p>
-<div class="grid2">
-  <div class="card">
-    <div class="card-title">A · Función f(t)</div>
-    <div class="chart-wrap" style="height:200px;">
-      <canvas id="chartS1" role="img" aria-label="Resumen función f(t)">f(t)</canvas>
+  <div class="fact-strip">
+    <div class="fact-card">
+      <div class="fc-num">2 000 M</div>
+      <div class="fc-label">Usuarios activos mensuales a nivel global en 2024</div>
+      <div class="fc-src">Fuente: Statista / We Are Social 2024</div>
+    </div>
+    <div class="fact-card">
+      <div class="fc-num">+70 M</div>
+      <div class="fc-label">Nuevos usuarios incorporados cada año desde 2020</div>
+      <div class="fc-src">Fuente: affmaven.com / Statista 2024</div>
+    </div>
+    <div class="fact-card">
+      <div class="fc-num">33 min</div>
+      <div class="fc-label">Tiempo promedio diario que un usuario pasa en Instagram</div>
+      <div class="fc-src">Fuente: Hootsuite Digital Report 2024</div>
+    </div>
+    <div class="fact-card">
+      <div class="fc-num">$70 900 M</div>
+      <div class="fc-label">Ingresos publicitarios proyectados para 2024 (USD)</div>
+      <div class="fc-src">Fuente: WARC Media / Meta 2024</div>
     </div>
   </div>
-  <div class="card">
-    <div class="card-title">B · Integral [0,10]</div>
-    <div class="chart-wrap" style="height:200px;">
-      <canvas id="chartS2" role="img" aria-label="Resumen integral">Integral</canvas>
+
+  <!-- ════════════════════════ KPI CARDS ════════════════════════ -->
+  <div class="section-header">
+    <div class="section-dot"></div>
+    <span class="section-title">Resultados del modelo matemático</span>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi kp-purple">
+      <div class="kpi-icon">📈</div>
+      <div class="kpi-label">Tasa final f(10)</div>
+      <div class="kpi-value" id="kpi_f10">150</div>
+      <div class="kpi-desc">usuarios/día en t = 10 días</div>
+      <span class="kpi-source">Modelo: f(t) = 50 + 10t</span>
+    </div>
+    <div class="kpi kp-gold">
+      <div class="kpi-icon">∫</div>
+      <div class="kpi-label">Integral [0,10]</div>
+      <div class="kpi-value" id="kpi_int">1 000</div>
+      <div class="kpi-desc">usuarios acumulados en 10 días</div>
+      <span class="kpi-source">Área bajo la curva f(t)</span>
+    </div>
+    <div class="kpi kp-teal">
+      <div class="kpi-icon">⏱</div>
+      <div class="kpi-label">F(t) en t = 5</div>
+      <div class="kpi-value" id="kpi_Ft">500</div>
+      <div class="kpi-desc">usuarios acumulados al día 5</div>
+      <span class="kpi-source">F(5) = 50(5) + 5(5²)</span>
+    </div>
+    <div class="kpi kp-rose">
+      <div class="kpi-icon">📅</div>
+      <div class="kpi-label">Intervalo</div>
+      <div class="kpi-value" id="kpi_dias">10</div>
+      <div class="kpi-desc">días analizados en el modelo</div>
+      <span class="kpi-source">Ventana de análisis académico</span>
     </div>
   </div>
-  <div class="card">
-    <div class="card-title">C · Acumulado F(t)</div>
-    <div class="chart-wrap" style="height:200px;">
-      <canvas id="chartS3" role="img" aria-label="Resumen acumulado">F(t)</canvas>
+
+  <!-- ════════════════════════ SECCIÓN: ANÁLISIS INTERACTIVO ════════════════════════ -->
+  <div class="section-header">
+    <div class="section-dot"></div>
+    <span class="section-title">Análisis matemático interactivo</span>
+  </div>
+
+  <div class="tabs-wrap">
+    <button class="tab active" data-panel="p1">Función f(t)</button>
+    <button class="tab" data-panel="p2">Integral definida</button>
+    <button class="tab" data-panel="p3">Acumulado F(t)</button>
+    <button class="tab" data-panel="p4">Comparar modelos</button>
+  </div>
+
+  <!-- Panel 1 -->
+  <div class="panel active" id="p1">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Tasa de llegada de seguidores por día</div>
+          <div class="card-sub">
+            Representa cuántos nuevos seguidores llegan a una cuenta de Instagram por día.
+            En la realidad, las cuentas comerciales crecen un promedio de <strong>+1,79% mensual</strong> en seguidores (Bazaarvoice 2024).
+            Ajusta los parámetros para simular distintos ritmos de crecimiento.
+          </div>
+        </div>
+        <span class="chip chip-purple">Tasa de llegada</span>
+      </div>
+      <div class="controls">
+        <div class="ctrl-row">
+          <div class="ctrl-label">Carga base (b) <span>Seguidores mínimos diarios (tráfico orgánico)</span></div>
+          <input type="range" id="base" min="0" max="200" step="1" value="50">
+          <span class="ctrl-val" id="baseVal">50</span>
+        </div>
+        <div class="ctrl-row">
+          <div class="ctrl-label">Pendiente (k) <span>Crecimiento adicional por día de campaña</span></div>
+          <input type="range" id="pend" min="0" max="30" step="1" value="10">
+          <span class="ctrl-val" id="pendVal">10</span>
+        </div>
+      </div>
+      <div class="formula-box" id="formula1">f(t) = 50 + 10t</div>
+      <div class="metric-grid">
+        <div class="metric-cell">
+          <div class="m-label">f(0) — Inicio</div>
+          <div class="m-value" id="m_f0">50</div>
+        </div>
+        <div class="metric-cell">
+          <div class="m-label">f(5) — Día 5</div>
+          <div class="m-value" id="m_f5">100</div>
+        </div>
+        <div class="metric-cell">
+          <div class="m-label">f(10) — Día final</div>
+          <div class="m-value" id="m_f10">150</div>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="chart1" role="img" aria-label="Función lineal de tasa de llegada de seguidores">f(t)</canvas>
+      </div>
+      <div class="info-box gold">
+        <span class="info-icon">📊</span>
+        <span>
+          <strong>Contexto real verificado:</strong> Instagram añade más de <strong>70 millones de nuevos usuarios por año a nivel global</strong> desde 2020 (≈ 192 000/día en todo el mundo). El modelo f(t) representa una escala reducida académica aplicable a una cuenta o campaña específica. Dato: <em>Statista / affmaven.com 2024</em>.
+        </span>
+      </div>
     </div>
   </div>
-  <div class="card">
-    <div class="card-title">D · Comparación modelos</div>
-    <div class="chart-wrap" style="height:200px;">
-      <canvas id="chartS4" role="img" aria-label="Resumen comparación">Modelos</canvas>
+
+  <!-- Panel 2 -->
+  <div class="panel" id="p2">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Integral definida — Seguidores totales en un intervalo</div>
+          <div class="card-sub">El área bajo f(t) entre [a, b] mide exactamente cuántos seguidores se ganaron en ese periodo. Mueve los límites para analizar ventanas de tiempo como una campaña de 5 días.</div>
+        </div>
+        <span class="chip chip-teal">Área bajo la curva</span>
+      </div>
+      <div class="controls">
+        <div class="ctrl-row">
+          <div class="ctrl-label">Límite inferior (a) <span>Día de inicio de la campaña</span></div>
+          <input type="range" id="limA" min="0" max="9" step="1" value="0">
+          <span class="ctrl-val" id="limAVal">0</span>
+        </div>
+        <div class="ctrl-row">
+          <div class="ctrl-label">Límite superior (b) <span>Día de cierre de la campaña</span></div>
+          <input type="range" id="limB" min="1" max="10" step="1" value="10">
+          <span class="ctrl-val" id="limBVal">10</span>
+        </div>
+      </div>
+      <div class="formula-box" id="formula2">∫₀¹⁰ (50 + 10t) dt = [50t + 5t²]₀¹⁰ = 1 000</div>
+      <div class="metric-grid">
+        <div class="metric-cell">
+          <div class="m-label">F(a) acumulados en a</div>
+          <div class="m-value" id="m_Fa">0</div>
+        </div>
+        <div class="metric-cell">
+          <div class="m-label">F(b) acumulados en b</div>
+          <div class="m-value" id="m_Fb">1 000</div>
+        </div>
+        <div class="metric-cell" style="border-color:rgba(45,212,191,.3);">
+          <div class="m-label" style="color:#2dd4bf;">Total seguidores ganados</div>
+          <div class="m-value" style="color:#2dd4bf;" id="m_intResult">1 000</div>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="chart2" role="img" aria-label="Integral definida con área sombreada entre límites ajustables">Integral definida</canvas>
+      </div>
+      <div class="info-box gold">
+        <span class="info-icon">📊</span>
+        <span>
+          <strong>Contexto real verificado:</strong> La tasa de engagement promedio en Instagram es del <strong>1,68% por publicación</strong>, la más alta entre las grandes redes sociales, superando el 0,72% de Facebook. Los Reels generan la mayor interacción con <strong>1,23% por publicación</strong>. Dato: <em>We Are Social / Hootsuite 2024</em>.
+        </span>
+      </div>
     </div>
   </div>
+
+  <!-- Panel 3 -->
+  <div class="panel" id="p3">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Seguidores acumulados — Primitiva F(t) = 50t + 5t²</div>
+          <div class="card-sub">Muestra el total de seguidores ganados desde el inicio hasta el instante t. La línea horizontal indica el valor exacto en el punto seleccionado.</div>
+        </div>
+        <span class="chip chip-gold">Acumulado</span>
+      </div>
+      <div class="controls">
+        <div class="ctrl-row">
+          <div class="ctrl-label">Instante t (días) <span>Ver total acumulado hasta este día</span></div>
+          <input type="range" id="tCursor" min="0" max="10" step="1" value="5">
+          <span class="ctrl-val" id="tCursorVal">5</span>
+        </div>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-cell">
+          <div class="m-label">Tiempo t</div>
+          <div class="m-value" id="m_curT">5</div>
+        </div>
+        <div class="metric-cell">
+          <div class="m-label">f(t) — tasa del día</div>
+          <div class="m-value" id="m_curF">100</div>
+        </div>
+        <div class="metric-cell" style="border-color:rgba(240,180,41,.3);">
+          <div class="m-label" style="color:#f0b429;">F(t) acumulados</div>
+          <div class="m-value" style="color:#f0b429;" id="m_curFt">500</div>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="chart3" role="img" aria-label="Curva parabólica de seguidores acumulados F(t)">F(t)</canvas>
+      </div>
+      <div class="info-box gold">
+        <span class="info-icon">📊</span>
+        <span>
+          <strong>Contexto real verificado:</strong> Instagram creció de <strong>1 000 millones (2018) a 2 000 millones de usuarios (2022–2024)</strong>, duplicando su base en solo 4 años. Esta curva acumulada real también es cuadrática en su fase de crecimiento, validando la forma parabólica de F(t). Dato: <em>Statista / We Are Social 2024</em>.
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel 4 -->
+  <div class="panel" id="p4">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Comparación de modelos — Limitaciones del modelo lineal</div>
+          <div class="card-sub">
+            La tasa de crecimiento real de Instagram pasó del <strong>18,1% en 2021</strong> al <strong>6,5% en 2024</strong>: un claro patrón logístico de desaceleración, no lineal. Activa y desactiva cada modelo para comparar.
+          </div>
+        </div>
+        <span class="chip chip-rose">Limitaciones</span>
+      </div>
+      <div class="toggle-row">
+        <label class="toggle-item on" id="tog_lineal">
+          <span class="toggle-dot" style="background:#7c3aed;"></span> Lineal (modelo académico)
+        </label>
+        <label class="toggle-item on" id="tog_expo">
+          <span class="toggle-dot" style="background:#fb7185;"></span> Exponencial (fase viral)
+        </label>
+        <label class="toggle-item on" id="tog_logis">
+          <span class="toggle-dot" style="background:#2dd4bf;"></span> Logístico (más realista)
+        </label>
+      </div>
+      <div class="chart-wrap" style="height:310px;">
+        <canvas id="chart4" role="img" aria-label="Comparación de modelos lineal exponencial y logístico">Modelos</canvas>
+      </div>
+      <div class="model-grid">
+        <div class="model-card mc-purple">
+          <div class="mc-title">Lineal · f(t) = 50 + 10t</div>
+          <div class="mc-desc">Primera aproximación académica. Fácil de integrar. No modela la desaceleración real: Instagram pasó de crecer 18,1% (2021) a 6,5% (2024).</div>
+        </div>
+        <div class="model-card mc-rose">
+          <div class="mc-title">Exponencial · f(t) = 50·eⁿᵗ</div>
+          <div class="mc-desc">Refleja la fase viral inicial de Instagram (2010–2016). Sin límite, sobreestima la demanda de infraestructura a largo plazo.</div>
+        </div>
+        <div class="model-card mc-teal">
+          <div class="mc-title">Logístico · curva S</div>
+          <div class="mc-desc">El más cercano a la realidad actual. Modela la saturación del mercado: Instagram muestra desaceleración sostenida desde 2022 según Statista.</div>
+        </div>
+      </div>
+      <div class="info-box gold" style="margin-top:16px;">
+        <span class="info-icon">📊</span>
+        <span><strong>Dato verificado:</strong> La tasa de crecimiento anual de usuarios de Instagram cayó de <strong>18,1% en 2021</strong> a <strong>6,5% en 2024</strong>, lo que confirma que el comportamiento real sigue un modelo logístico, no lineal. Dato: <em>Statista 2024</em>.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════ SECCIÓN: INFRAESTRUCTURA ════════════════════════ -->
+  <div class="section-header">
+    <div class="section-dot"></div>
+    <span class="section-title">Impacto en infraestructura — Servidores de Instagram</span>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Consumo de recursos del servidor vs seguidores acumulados</div>
+        <div class="card-sub">
+          Instagram procesa más de <strong>1 300 millones de imágenes al día</strong> y más de <strong>500 millones de cuentas usan Stories diariamente</strong> (Meta 2024). El crecimiento de usuarios F(t) escala directamente los recursos. Ajusta los factores para simular diferentes cargas.
+        </div>
+      </div>
+      <span class="chip chip-purple">Infraestructura</span>
+    </div>
+    <div class="controls">
+      <div class="ctrl-row">
+        <div class="ctrl-label">CPU (factor) <span>Procesamiento de feeds, algoritmo de recomendación</span></div>
+        <input type="range" id="cpuF" min="1" max="10" step="1" value="4">
+        <span class="ctrl-val" id="cpuFVal">4</span>
+      </div>
+      <div class="ctrl-row">
+        <div class="ctrl-label">Memoria RAM (factor) <span>Sesiones activas, caché de contenido</span></div>
+        <input type="range" id="memF" min="1" max="10" step="1" value="6">
+        <span class="ctrl-val" id="memFVal">6</span>
+      </div>
+      <div class="ctrl-row">
+        <div class="ctrl-label">Ancho de banda (factor) <span>Fotos, Reels, Stories — 1 300 M imágenes/día</span></div>
+        <input type="range" id="bwF" min="1" max="10" step="1" value="8">
+        <span class="ctrl-val" id="bwFVal">8</span>
+      </div>
+    </div>
+    <div class="chart-wrap-lg">
+      <canvas id="chart5" role="img" aria-label="Consumo estimado de CPU memoria y ancho de banda del servidor">Recursos</canvas>
+    </div>
+    <div class="info-box gold">
+      <span class="info-icon">⚡</span>
+      <span>
+        <strong>Dato real verificado:</strong> El 20% del tiempo en Instagram se consume en Reels, y 500 millones de cuentas usan Stories diariamente (Meta 2024). El ancho de banda escala más rápido que la CPU porque cada nuevo seguidor genera tráfico de video de forma constante. Fuente: <em>Meta / Hootsuite 2024</em>.
+      </span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════ SECCIÓN: ESCALAMIENTO ════════════════════════ -->
+  <div class="section-header">
+    <div class="section-dot"></div>
+    <span class="section-title">Planificación de capacidad del sistema</span>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Demanda acumulada F(t) vs Capacidad instalada del sistema</div>
+        <div class="card-sub">Simula en qué momento la demanda de usuarios supera la capacidad del sistema, activando la necesidad de escalar. La zona roja es el déficit crítico.</div>
+      </div>
+      <span class="chip chip-rose">Punto crítico</span>
+    </div>
+    <div class="controls">
+      <div class="ctrl-row">
+        <div class="ctrl-label">Capacidad inicial <span>Usuarios que soporta el sistema desde el día 0</span></div>
+        <input type="range" id="capIni" min="100" max="800" step="50" value="300">
+        <span class="ctrl-val" id="capIniVal">300</span>
+      </div>
+      <div class="ctrl-row">
+        <div class="ctrl-label">Expansión de capacidad <span>Crecimiento planificado de infraestructura / día</span></div>
+        <input type="range" id="capGrow" min="0" max="80" step="5" value="20">
+        <span class="ctrl-val" id="capGrowVal">20</span>
+      </div>
+    </div>
+    <div class="metric-grid">
+      <div class="metric-cell" style="border-color:rgba(251,113,133,.3);">
+        <div class="m-label" style="color:#fb7185;">Punto de cruce</div>
+        <div class="m-value" style="color:#fb7185; font-size:18px;" id="m_cross">—</div>
+      </div>
+      <div class="metric-cell">
+        <div class="m-label">Demanda F(10)</div>
+        <div class="m-value" id="m_dem10">1 000</div>
+      </div>
+      <div class="metric-cell">
+        <div class="m-label">Capacidad en t=10</div>
+        <div class="m-value" id="m_cap10">500</div>
+      </div>
+    </div>
+    <div class="chart-wrap-lg">
+      <canvas id="chart6" role="img" aria-label="Demanda acumulada versus capacidad del sistema con zona de déficit">Escalamiento</canvas>
+    </div>
+    <div class="info-box gold">
+      <span class="info-icon">🚀</span>
+      <span>
+        <strong>Contexto real verificado:</strong> Instagram opera sobre la infraestructura de Meta, que utiliza <strong>escalabilidad horizontal masiva</strong> con miles de servidores distribuidos globalmente. Meta invierte miles de millones anuales en infraestructura para soportar el crecimiento continuo de 2 000 M+ de usuarios activos. Fuente: <em>Meta Investor Report 2024</em>.
+      </span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════ SECCIÓN: BARRAS ════════════════════════ -->
+  <div class="section-header">
+    <div class="section-dot"></div>
+    <span class="section-title">Distribución diaria de seguidores</span>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Llegada diaria de seguidores — f(t) = 50 + 10t</div>
+        <div class="card-sub">Cada barra muestra los usuarios que llegan en ese día específico. El degradado de púrpura a dorado refleja la intensidad creciente de carga sobre el sistema.</div>
+      </div>
+      <span class="chip chip-gold">Por día</span>
+    </div>
+    <div class="chart-wrap-lg">
+      <canvas id="chart7" role="img" aria-label="Distribución diaria de seguidores del día 1 al 10">Barras</canvas>
+    </div>
+    <div class="info-box gold">
+      <span class="info-icon">📊</span>
+      <span>
+        El sistema pasa de <strong>60 usuarios/día</strong> (día 1) a <strong>150 usuarios/día</strong> (día 10), un incremento del <strong>150%</strong>. En Instagram real, el 63% de los usuarios accede diariamente y pasa un promedio de <strong>33 minutos</strong> en la app (Hootsuite 2024), lo que implica que cada nuevo seguidor genera una carga de sesión activa sostenida.
+      </span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════ PANEL RESUMEN ════════════════════════ -->
+  <div class="section-header">
+    <div class="section-dot"></div>
+    <span class="section-title">Panel resumen — Los 4 gráficos del modelo</span>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title" style="margin-bottom:14px; font-size:14px;">A · Función f(t) = 50 + 10t</div>
+      <div class="chart-wrap" style="height:190px;">
+        <canvas id="cS1" role="img" aria-label="Miniatura función f(t)">f(t)</canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:14px; font-size:14px;">B · Integral definida [0, 10]</div>
+      <div class="chart-wrap" style="height:190px;">
+        <canvas id="cS2" role="img" aria-label="Miniatura integral">Integral</canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:14px; font-size:14px;">C · Acumulado F(t) = 50t + 5t²</div>
+      <div class="chart-wrap" style="height:190px;">
+        <canvas id="cS3" role="img" aria-label="Miniatura acumulado">F(t)</canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:14px; font-size:14px;">D · Comparación de modelos</div>
+      <div class="chart-wrap" style="height:190px;">
+        <canvas id="cS4" role="img" aria-label="Miniatura comparación de modelos">Modelos</canvas>
+      </div>
+    </div>
+  </div>
+
+  <p class="footer">
+    Ingeniería de Sistemas · Instagram Growth Analytics · f(t) = 50 + 10t<br>
+    Datos contextuales verificados: Statista · Meta · We Are Social · Hootsuite · Pew Research Center (2024)
+  </p>
+
 </div>
-
-<p class="footer">Ingeniería de Sistemas · f(t) = 50 + 10t</p>
-
-<!-- Script propio (al final del body) -->
-<script src="graficos.js"></script>
-
+ <script type="module" src="js/fondo.js"></script>
+<script src="js/graficos.js"></script>
 </body>
 </html>

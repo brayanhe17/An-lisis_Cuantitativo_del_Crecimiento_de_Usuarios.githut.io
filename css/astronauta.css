@@ -1,0 +1,110 @@
+/* ══════════════════════════════════════════════════════
+   ASTRONAUTA PIXEL ART ELABORADO — Puro CSS
+   Diseño: Blanco, Dorado y Púrpura (Acorde al Dashboard)
+══════════════════════════════════════════════════════ */
+
+:root {
+    --px: 3px; /* Tamaño del píxel */
+    --c-traje: #f8f7ff;
+    --c-visor: #0c0a14;
+    --c-reflejo: rgba(255, 255, 255, 0.4);
+    --c-dorado: #f0b429;
+    --c-morado: #7c3aed;
+    --c-sombra: #d1d5db;
+}
+
+.astro-pixel-wrapper {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    width: calc(var(--px) * 25);
+    height: calc(var(--px) * 25);
+    z-index: 1000;
+    cursor: pointer;
+    animation: float-gravity 5s infinite ease-in-out;
+}
+
+.astronauta-pixel {
+    width: var(--px);
+    height: var(--px);
+    background: transparent;
+    position: relative;
+    /* Dibujo fila por fila usando box-shadow */
+    box-shadow: 
+        /* --- CASCO --- */
+        calc(var(--px)*7) var(--px) var(--c-traje), calc(var(--px)*8) var(--px) var(--c-traje), calc(var(--px)*9) var(--px) var(--c-traje), calc(var(--px)*10) var(--px) var(--c-traje), calc(var(--px)*11) var(--px) var(--c-traje),
+        calc(var(--px)*6) calc(var(--px)*2) var(--c-traje), calc(var(--px)*12) calc(var(--px)*2) var(--c-traje),
+        calc(var(--px)*5) calc(var(--px)*3) var(--c-traje), calc(var(--px)*6) calc(var(--px)*3) var(--c-visor), calc(var(--px)*7) calc(var(--px)*3) var(--c-visor), calc(var(--px)*8) calc(var(--px)*3) var(--c-visor), calc(var(--px)*9) calc(var(--px)*3) var(--c-visor), calc(var(--px)*10) calc(var(--px)*3) var(--c-visor), calc(var(--px)*11) calc(var(--px)*3) var(--c-visor), calc(var(--px)*12) calc(var(--px)*3) var(--c-visor), calc(var(--px)*13) calc(var(--px)*3) var(--c-traje),
+        calc(var(--px)*5) calc(var(--px)*4) var(--c-traje), calc(var(--px)*6) calc(var(--px)*4) var(--c-visor), calc(var(--px)*7) calc(var(--px)*4) var(--c-reflejo), calc(var(--px)*8) calc(var(--px)*4) var(--c-visor), calc(var(--px)*9) calc(var(--px)*4) var(--c-visor), calc(var(--px)*10) calc(var(--px)*4) var(--c-visor), calc(var(--px)*11) calc(var(--px)*4) var(--c-visor), calc(var(--px)*12) calc(var(--px)*4) var(--c-visor), calc(var(--px)*13) calc(var(--px)*4) var(--c-traje),
+        calc(var(--px)*5) calc(var(--px)*5) var(--c-traje), calc(var(--px)*6) calc(var(--px)*5) var(--c-visor), calc(var(--px)*7) calc(var(--px)*5) var(--c-visor), calc(var(--px)*8) calc(var(--px)*5) var(--c-visor), calc(var(--px)*9) calc(var(--px)*5) var(--c-visor), calc(var(--px)*10) calc(var(--px)*5) var(--c-visor), calc(var(--px)*11) calc(var(--px)*5) var(--c-visor), calc(var(--px)*12) calc(var(--px)*5) var(--c-visor), calc(var(--px)*13) calc(var(--px)*5) var(--c-traje),
+        calc(var(--px)*6) calc(var(--px)*6) var(--c-traje), calc(var(--px)*7) calc(var(--px)*6) var(--c-traje), calc(var(--px)*8) calc(var(--px)*6) var(--c-traje), calc(var(--px)*9) calc(var(--px)*6) var(--c-traje), calc(var(--px)*10) calc(var(--px)*6) var(--c-traje), calc(var(--px)*11) calc(var(--px)*6) var(--c-traje), calc(var(--px)*12) calc(var(--px)*6) var(--c-traje),
+
+        /* --- CUERPO --- */
+        calc(var(--px)*6) calc(var(--px)*7) var(--c-traje), calc(var(--px)*11) calc(var(--px)*7) var(--c-traje),
+        calc(var(--px)*5) calc(var(--px)*8) var(--c-traje), calc(var(--px)*6) calc(var(--px)*8) var(--c-dorado), calc(var(--px)*7) calc(var(--px)*8) var(--c-traje), calc(var(--px)*8) calc(var(--px)*8) var(--c-morado), calc(var(--px)*9) calc(var(--px)*8) var(--c-morado), calc(var(--px)*10) calc(var(--px)*8) var(--c-traje), calc(var(--px)*11) calc(var(--px)*8) var(--c-dorado), calc(var(--px)*12) calc(var(--px)*8) var(--c-traje),
+        calc(var(--px)*5) calc(var(--px)*9) var(--c-traje), calc(var(--px)*6) calc(var(--px)*9) var(--c-traje), calc(var(--px)*7) calc(var(--px)*9) var(--c-traje), calc(var(--px)*8) calc(var(--px)*9) var(--c-traje), calc(var(--px)*9) calc(var(--px)*9) var(--c-traje), calc(var(--px)*10) calc(var(--px)*9) var(--c-traje), calc(var(--px)*11) calc(var(--px)*9) var(--c-traje), calc(var(--px)*12) calc(var(--px)*9) var(--c-traje),
+
+        /* --- TAZA Y BRAZO --- */
+        calc(var(--px)*13) calc(var(--px)*9) var(--c-traje), calc(var(--px)*14) calc(var(--px)*9) var(--c-traje),
+        calc(var(--px)*15) calc(var(--px)*8) var(--c-traje), calc(var(--px)*16) calc(var(--px)*8) var(--c-traje), calc(var(--px)*17) calc(var(--px)*8) var(--c-traje),
+        calc(var(--px)*15) calc(var(--px)*9) var(--c-traje), calc(var(--px)*16) calc(var(--px)*9) var(--c-dorado), calc(var(--px)*17) calc(var(--px)*9) var(--c-traje), calc(var(--px)*18) calc(var(--px)*9) var(--c-traje),
+        calc(var(--px)*15) calc(var(--px)*10) var(--c-traje), calc(var(--px)*16) calc(var(--px)*10) var(--c-traje), calc(var(--px)*17) calc(var(--px)*10) var(--c-traje),
+        /* Humo */
+        calc(var(--px)*16) calc(var(--px)*6) var(--c-reflejo), calc(var(--px)*17) calc(var(--px)*5) var(--c-reflejo), calc(var(--px)*16) calc(var(--px)*4) var(--c-reflejo),
+
+        /* --- MOCHILA --- */
+        calc(var(--px)*3) calc(var(--px)*4) var(--c-morado), calc(var(--px)*4) calc(var(--px)*4) var(--c-traje),
+        calc(var(--px)*3) calc(var(--px)*5) var(--c-morado), calc(var(--px)*4) calc(var(--px)*5) var(--c-traje),
+        calc(var(--px)*3) calc(var(--px)*6) var(--c-morado), calc(var(--px)*4) calc(var(--px)*6) var(--c-traje),
+        calc(var(--px)*3) calc(var(--px)*7) var(--c-morado), calc(var(--px)*4) calc(var(--px)*7) var(--c-traje),
+        calc(var(--px)*3) calc(var(--px)*8) var(--c-morado), calc(var(--px)*4) calc(var(--px)*8) var(--c-traje),
+
+        /* --- PIERNAS --- */
+        calc(var(--px)*6) calc(var(--px)*10) var(--c-traje), calc(var(--px)*11) calc(var(--px)*10) var(--c-traje),
+        calc(var(--px)*6) calc(var(--px)*11) var(--c-traje), calc(var(--px)*11) calc(var(--px)*11) var(--c-traje),
+        calc(var(--px)*6) calc(var(--px)*12) var(--c-dorado), calc(var(--px)*11) calc(var(--px)*12) var(--c-dorado),
+        calc(var(--px)*5) calc(var(--px)*13) var(--c-traje), calc(var(--px)*6) calc(var(--px)*13) var(--c-traje), calc(var(--px)*11) calc(var(--px)*13) var(--c-traje), calc(var(--px)*12) calc(var(--px)*13) var(--c-traje)
+    ;
+}
+
+/* --- MENSAJE FLOTANTE --- */
+.mensaje-hola {
+    position: absolute;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: var(--c-morado);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0;
+    transition: 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    pointer-events: none;
+}
+
+.mensaje-hola::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid var(--c-morado);
+}
+
+.astro-pixel-wrapper:hover .mensaje-hola {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* --- ANIMACIÓN --- */
+@keyframes float-gravity {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(4deg); }
+}
